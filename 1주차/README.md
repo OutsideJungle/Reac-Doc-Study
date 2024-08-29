@@ -294,3 +294,55 @@ function MyButton() {
         );
      }
      ```
+
+<details>
+<summary>function / const</summary>
+
+### function과 const 선언의 차이
+1. function 선언을 선호하는 이유
+   - hoisting(호이스팅)을 지원
+   - const 선언 보다 함수인지 인지하기 쉬움
+   - 함수를 직접 참조하기 때문에 읽기 쉬움
+2. const 선언을 선호하는 이유
+   - 주로 고차 함수에 대한 콜백함수로 사용(map, reduce, forEach 등)
+   - 적절한 함수 선언 배치와 모듈을 사용하면 hoisting(호이스팅)은 문제가 안됨
+   - 함수명 중복을 막음
+
+</details>
+
+---
+# React로 사고하기
+
+### Step 1 : UI를 컴포넌트 계층으로 쪼개기
+1. UI와 데이터 모델(JSON 등)은 보통 같은 구조를 가짐
+2. UI를 컴포넌트로 분리하고, 각 컴포넌트가 데이터 모델에 매칭되도록 구현
+
+### Step 2 : React로 정적인 버전 구현하기
+1. 컴포넌트 계층구조를 기반으로 부모에서 자식으로(하향식, Top-Down) `props`를 전달
+2. 정적인 버전으로만 구현됐기 때문에 상호작용은 불가
+3. 컴포넌트는 단순히 JSX만 리턴
+
+### Step 3 : 최소한 데이터만 이용해 완벽하게 UI state 표현하기
+1. 애플리케이션이 상호작용을 하게 하려 기존 데이터를 변경할 수 있어야 함
+2. React는 `state`를 통해 기존 데이터를 변경 가능
+3. 중복 배제 원칙(DRY, Don't Repeat Yourself)을 기반으로 최소한의 state를 사용
+
+<details>
+<summary>Props / State</summary>
+React는 props와 state라는 두 개의 데이터 “모델”이 존재합니다
+
+- **Props는 함수를 통해 전달되는 인자 같은 성격**
+  - props는 부모 컴포넌트로부터 자식 컴포넌트로 데이터를 넘기는 역할
+- **State는 컴포넌트의 메모리 같은 성격**
+  - state는 컴포넌트가 몇몇 정보를 추적 및 업데이트하면서 상호작용(interaction)을 만들어냄
+
+</details>
+
+### Step 4 : State가 어디에 있어야 할 지 정하기
+React는 항상 컴포넌트 계층구조를 따라 **부모에서 자식**으로 데이터를 전달하는 단방향 데이터 흐름을 사용
+
+- `state`위치 결정하는 방법
+  - 보통 공통된 부모 또는 공통된 부모의 상위 컴포넌트에 state를 둠
+  - state를 둘 적절한 컴포넌트가 없는 경우, 새로 상위 컴포넌트를 생성해 state를 둠
+
+### Step 5 : 역 데이터 흐름 추가하기
